@@ -1,0 +1,20 @@
+cmake_minimum_required(VERSION 3.30.0)
+project(LearnOpenGL VERSION 1.0.0)
+
+set(CMAKE_CXX_STANDARD 26)
+
+find_package(OpenGL REQUIRED)
+
+
+set(SOURCES src/main.cpp)
+set(DEPENDENCIES dependencies)
+
+add_executable(LearnOpenGL 
+	${DEPENDENCIES} ${SOURCES}
+	${DEPENDENCIES}/glad/glad.c
+)
+
+target_link_libraries(LearnOpenGL ${CMAKE_SOURCE_DIR}/libs/glfw3.lib)
+
+target_include_directories(LearnOpenGL PRIVATE dependencies)
+
