@@ -6,13 +6,13 @@ set(CMAKE_CXX_STANDARD 26)
 find_package(OpenGL REQUIRED)
 
 
-set(SOURCES src/main.cpp)
+set(SOURCES src/Hello_Triangle.cpp)
 set(DEPENDENCIES dependencies)
 
 add_executable(LearnOpenGL 
 	${DEPENDENCIES} ${SOURCES}
 	${DEPENDENCIES}/glad/glad.c
- "Hello_Triangle_Problems/Hello_Triangle.cpp")
+)
 
 target_link_libraries(LearnOpenGL ${CMAKE_SOURCE_DIR}/libs/glfw3.lib)
 

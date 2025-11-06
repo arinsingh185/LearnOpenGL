@@ -84,16 +84,18 @@ int main() {
 
 
 	float vertices[] = {
+		0.0f, -0.5f, 0.0f,
+		0.8f, -0.5f, 0.0f,
 		0.5f, 0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		-0.5f, -0.5f, 0.0f,
-		-0.5f, 0.5f, 0.0f
+
+		 -0.5f, 0.5f, 0.0f, 
+		-0.8f, -0.5, 0.0f, 
+		0.0f,  -0.5f, 0.0f
 
 	};
 
 	unsigned int indices[] = {
-		0, 1, 3,
-		1, 2, 3
+		0
 	};
 
 	glGenBuffers(1, &VBO);
@@ -130,7 +132,9 @@ int main() {
 
 		glUseProgram(shaderProgram);
 		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+
+
 		glBindVertexArray(0);
 
 		//check and call events and then swap the buffer
