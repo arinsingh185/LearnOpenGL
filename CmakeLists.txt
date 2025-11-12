@@ -11,12 +11,11 @@ set(DEPENDENCIES dependencies)
 
 add_executable(LearnOpenGL 
 	${DEPENDECIES}
-	${CMAKE_SOURCE_DIR}/src/main.cpp
+	"src/main.cpp"
 	${DEPENDENCIES}/glad/glad.c
-	
+	"src/Core/Engine.h"
 )
 
 target_link_libraries(LearnOpenGL ${CMAKE_SOURCE_DIR}/libs/glfw3.lib)
 
 target_include_directories(LearnOpenGL PRIVATE dependencies)
-
