@@ -1,8 +1,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include "Core/Engine.h"
 #include <cmath>
+#include <shader.h>
 
 
 
@@ -94,9 +94,7 @@ int main() {
 			0.0f, 0.5f, 0.0f,
 			0.5f, -0.5f, 0.0f,
 			-0.5f, -0.5f, 0.0f,
-			0.0f, 0.0f, 0.0f,
-			0.0f,-0.5f, 0.0f,
-			-0.5f, 0.5f/3, 0.0f
+
 
 		};
 
@@ -117,7 +115,7 @@ int main() {
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 		glEnableVertexAttribArray(0);
 
-		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
 
 		
