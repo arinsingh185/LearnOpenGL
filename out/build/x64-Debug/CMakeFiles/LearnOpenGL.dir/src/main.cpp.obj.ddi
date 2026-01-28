@@ -1,0 +1,14 @@
+{
+    "version": 1,
+    "revision": 0,
+    "rules": [
+        {
+            "primary-output": "CMakeFiles\\LearnOpenGL.dir\\src\\main.cpp.obj",
+            "outputs": [
+                "C:\\Users\\Mirik\\source\\repos\\LearnOpenGL\\out\\build\\x64-Debug\\vc140.pdb",
+                "CMakeFiles\\LearnOpenGL.dir\\src\\main.cpp.obj.ddi"
+            ],
+            "requires": []
+        }
+    ]
+}
