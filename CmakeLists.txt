@@ -15,8 +15,7 @@ add_executable(LearnOpenGL
 	"src/main.cpp"
 	"src/shader.cpp"
 	${DEPENDENCIES}/glad/glad.c
-
-)
+	"dependencies/STB_IMAGE/stb_image.cpp" "src/Render/Engine.cpp" "src/Render/Engine.h"  )
 
 target_link_libraries(LearnOpenGL ${CMAKE_SOURCE_DIR}/libs/glfw3.lib)
 
