@@ -8,19 +8,40 @@
 #include<glm/glm.hpp>
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>
+#include <glm/geometric.hpp>
 
 
+void processInput(GLFWwindow* window);
+
+
+/*glm::vec3 position = glm::vec3(0.0f, 0.0f, 3.0f);
+glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f);
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
+
+
+
+bool firstMouse = true;
+float yaw = 90.f;
+float pitch = 0.0f;
+float lastX = static_cast<float>(width) / 2.0f;
+float lastY = static_cast<float>(height) / 2.0f;
+float fov = 45.0f;
+*/
+int width = 1920;
+int  height = 1080;
 
 int main() {
 
 	     unsigned int VBO, VAO, EBO;
 
 		
-		int width, height, nrChannels;
+		int nrChannels;
 
 		unsigned int texture1, texture2;
 		
-		Window window(1920, 1080);
+		Window window(width, height);
 
 
 		Shader ourShader("C:/Users/Mirik/source/repos/LearnOpenGL/src/Shader/Shader.vert", "C:/Users/Mirik/source/repos/LearnOpenGL/src/Shader/Shader.frag");
@@ -192,10 +213,13 @@ int main() {
 
 		//render loop
 		while (!glfwWindowShouldClose(window.getWindow())){
-
+			float currentFrame = glfwGetTime();
+			deltaTime = currentFrame - lastFrame;
+			lastFrame = currentFrame;
 
 			//input
-			window.processInput(window.getWindow());
+			processInput(window.getWindow());
+			//glfwSetScrollCallback(window.getWindow(), scroll_callback);
 			
 			//render code...
 			
@@ -213,17 +237,11 @@ int main() {
 
 
 
-			glm::mat4 view = glm::mat4(1.0f);
-			float radius = 20;
-			float camX = ((sin(glfwGetTime()) * radius));
-			float camZ = (cos(glfwGetTime()) * radius);
-			view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), 
-						    glm::vec3(0.0f, 0.0f, 0.0f), 
-						    glm::vec3(0.0f, 1.0f, 0.0f));
+			glm::mat4 view = glm::lookAt(position, position + cameraFront, up);
 			ourShader.setMat4("view", view);
 
 			glm::mat4 projection{};
-			projection = glm::perspective(glm::radians(45.0f), (float)window.getHeight() / (float)window.getWidth(), 0.1f, 1000.0f);
+			projection = glm::perspective(glm::radians(fov), (float)(width/ height), 0.1f, 100.0f);
 			//projection = glm::ortho(0.0f, (float)window.getWidth(), (float)window.getHeight(), 0.0f, -100.0f, 100.0f);
 
 
@@ -265,3 +283,30 @@ int main() {
 		return 0;
 
 	}
+
+	void processInput(GLFWwindow* window) {
+		const float cameraSpeed{ 2.5f * deltaTime };
+		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+			glfwSetWindowShouldClose(window, true);
+		}
+
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+			position += cameraSpeed * cameraFront;
+		}
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+			position -= cameraSpeed * cameraFront;
+		}
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+			position -= glm::normalize(glm::cross(cameraFront, up)) * cameraSpeed;
+		}
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+			position += glm::normalize(glm::cross(cameraFront, up)) * cameraSpeed;
+		}
+		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
+			position += up * cameraSpeed;
+		}
+		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS) {
+			position -= up * cameraSpeed;
+		}
+	}
+
