@@ -17,7 +17,11 @@ add_executable(LearnOpenGL
 	${DEPENDENCIES}/glad/glad.c
 	"dependencies/STB_IMAGE/stb_image.cpp" 
 	"src/Render/window.cpp" 
-	"src/Render/window.h"   "src/Render/Engine.h" "src/Render/Engine.cpp" "src/Render/camera.h" "src/Render/camera.cpp")
+	"src/Render/window.h"   
+	"src/Render/Engine.h" 
+	"src/Render/Engine.cpp" 
+	"src/Render/camera.h" 
+	"src/Render/camera.cpp" "src/Render/Scene.h" "src/Render/Scene.cpp")
 
 target_link_libraries(LearnOpenGL ${CMAKE_SOURCE_DIR}/libs/glfw3.lib)
 

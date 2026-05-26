@@ -6,38 +6,13 @@
 Window::Window() {
 	setHeight(800);
 	setWidth(600);
-	position = glm::vec3(0.0f, 0.0f, 3.0f);
-	cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-	up = glm::vec3(0.0f, 1.0f, 0.0f);
-	deltaTime = 0.0f;
-	lastFrame = 0.0f;
-
-	firstMouse = true;
-	yaw = 90.f;
-	pitch = 0.0f;
-	lastX = (float)(width) / 2.0f;
-	lastY = (float)(height) / 2.0f;
-	fov = 45.0f;
 	Init();
 }
 
 Window::Window(int height, int width) {
 	setHeight(height);
 	setWidth(width);
-	position = glm::vec3(0.0f, 0.0f, 3.0f);
-	cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-	up = glm::vec3(0.0f, 1.0f, 0.0f);
-	deltaTime = 0.0f;
-	lastFrame = 0.0f;
-
-
-
-	firstMouse = true;
-	yaw = 90.f;
-	pitch = 0.0f;
-	lastX = (float)(width) / 2.0f;
-	lastY = (float)(height) / 2.0f;
-	fov = 45.0f;
+	//camera = cam;
 	Init();
 }
 
@@ -55,9 +30,9 @@ void Window::Init() {
 	}
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-	glfwSetCursorPosCallback(window, mouseCallback);
+	//glfwSetCursorPosCallback(window, mouse_callback);
 	//glfwSetScrollCallback(window, scroll_callback);
-
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
 		std::cout << "Failed to initialize GLAD" << std::endl;
 	}
@@ -91,46 +66,9 @@ void Window::framebuffer_size_callback(GLFWwindow* window, int width, int height
 	glViewport(0, 0, width, height);
 }
 
-void Window::mouseCallback(GLFWwindow* window, double xpos, double ypos) {
-	if (firstMouse) {
-		lastX = xpos;
-		lastY = ypos;
-		firstMouse = false;
-	}
-
-	float xOffset = xpos - lastX;
-	float yOffset = lastY - ypos;
-	lastX = xpos;
-	lastY = ypos;
-	float sensitivity = 0.1f;
-	xOffset *= sensitivity;
-	yOffset *= sensitivity;
-
-	yaw += xOffset;
-	pitch += yOffset;
-
-	if (pitch > 89.0) {
-		pitch = 89.0;
-	}
-	if (pitch > -89.0) {
-		pitch = -89.0;
-	}
-
-	glm::vec3 front;
-	front.x = glm::cos(yaw) * glm::cos(pitch);
-	front.y = glm::sin(pitch);
-	front.z = glm::sin(yaw) * glm::cos(pitch);
-	cameraFront = glm::normalize(front);
-
+void Window::mouse_callback(GLFWwindow* window, double xpos, double ypos) {
+	//camera->mouse_callback(xpos, ypos);
 }
-
 void Window::scroll_callback(GLFWwindow* window, double xOffset, double yOffset) {
-	fov -= (float)yOffset;
-	if (fov < 1.0) {
-		fov = 1.0;
-	}
-	if (fov > 45.0) {
-		fov = 45.0;
-	}
-
+	//camera->scroll_callback(xOffset, yOffset);
 }

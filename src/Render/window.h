@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include "shader.h"
+#include "camera.h"
 
 
 class Window {
@@ -12,8 +13,6 @@ public:
 	Window();
 	Window(int height, int width);
 	static void framebuffer_size_callback(GLFWwindow* window, int height, int width);
-	static void mouseCallback(GLFWwindow* window, double xpos, double ypos);
-	void scroll_callback(GLFWwindow* window, double xOffset, double yOffset);
 
 	void Init();
 
@@ -27,30 +26,17 @@ public:
 	int getHeight() const;
 	int getWidth() const;
 
-
+	static void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+	static void scroll_callback(GLFWwindow* window, double xOffset, double yOffset);
 
 private:
 
 
-	static glm::vec3 position;
-	static glm::vec3 cameraFront;
-	static glm::vec3 up;
-	static float deltaTime;
-	static float lastFrame;
-
-
-	static bool firstMouse;
-	static float yaw;
-	static float pitch;
-	static float lastX;
-	static float lastY;
-	static float fov;
 
 
 	int width;
 	int height;
 	GLFWwindow* window;
-
 
 };
 

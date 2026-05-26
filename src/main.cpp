@@ -9,9 +9,13 @@
 #include<glm/gtc/matrix_transform.hpp>
 #include<glm/gtc/type_ptr.hpp>
 #include <glm/geometric.hpp>
+#include "Render/camera.h"
 
 
-void processInput(GLFWwindow* window);
+
+float deltaTime = 0.0f;
+float lastFrame = 0.0f;
+//void processInput(GLFWwindow* window);
 
 
 /*glm::vec3 position = glm::vec3(0.0f, 0.0f, 3.0f);
@@ -41,8 +45,10 @@ int main() {
 
 		unsigned int texture1, texture2;
 		
-		Window window(width, height);
+		
 
+		Camera camera;
+		Window window(width, height);
 
 		Shader ourShader("C:/Users/Mirik/source/repos/LearnOpenGL/src/Shader/Shader.vert", "C:/Users/Mirik/source/repos/LearnOpenGL/src/Shader/Shader.frag");
 
@@ -218,8 +224,9 @@ int main() {
 			lastFrame = currentFrame;
 
 			//input
-			processInput(window.getWindow());
-			//glfwSetScrollCallback(window.getWindow(), scroll_callback);
+			camera.processInput(window.getWindow(), deltaTime);
+			//glfwSetCursorPosCallback(window.getWindow(), camera.mouse_callback());
+			//glfwSetScrollCallback(window.getWindow(), camera.scroll_callback());
 			
 			//render code...
 			
@@ -237,11 +244,11 @@ int main() {
 
 
 
-			glm::mat4 view = glm::lookAt(position, position + cameraFront, up);
+			glm::mat4 view = glm::lookAt(camera.getPosition(), camera.getPosition() + camera.getFront(), camera.getUp());
 			ourShader.setMat4("view", view);
 
 			glm::mat4 projection{};
-			projection = glm::perspective(glm::radians(fov), (float)(width/ height), 0.1f, 100.0f);
+			projection = glm::perspective(glm::radians(camera.getFov()), (float)(width/ height), 0.1f, 100.0f);
 			//projection = glm::ortho(0.0f, (float)window.getWidth(), (float)window.getHeight(), 0.0f, -100.0f, 100.0f);
 
 
@@ -250,17 +257,13 @@ int main() {
 			glBindVertexArray(VAO);
 
 
-			for (unsigned int i{ 0 }; i < 11; i++) {
+			for (unsigned int i{0}; i < 11; i++) {
 				glm::mat4 model{ glm::mat4(1.0f) };
 				model = glm::translate(model, cubePositions[i]);
-				float angle = 20.0 * i;
-				if (i % 3 == 0) {
-					model = glm::rotate(model, (float)glfwGetTime() * glm::radians(angle + 20), glm::vec3(0.0f, 0.3f, 0.5f));
-				}
 				ourShader.setMat4("model", model);
-
 				glDrawArrays(GL_TRIANGLES, 0, 36);
 			}
+			
 
 
 			glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -282,31 +285,5 @@ int main() {
 
 		return 0;
 
-	}
-
-	void processInput(GLFWwindow* window) {
-		const float cameraSpeed{ 2.5f * deltaTime };
-		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-			glfwSetWindowShouldClose(window, true);
-		}
-
-		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
-			position += cameraSpeed * cameraFront;
-		}
-		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
-			position -= cameraSpeed * cameraFront;
-		}
-		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
-			position -= glm::normalize(glm::cross(cameraFront, up)) * cameraSpeed;
-		}
-		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
-			position += glm::normalize(glm::cross(cameraFront, up)) * cameraSpeed;
-		}
-		if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS) {
-			position += up * cameraSpeed;
-		}
-		if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS) {
-			position -= up * cameraSpeed;
-		}
 	}
 
